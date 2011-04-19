@@ -20,11 +20,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'lib'))
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext import db
-from google.appengine.api import users
-from google.appengine.api import mail
-from google.appengine.api import taskqueue
 from google.appengine.api import memcache
-from google.appengine.api import urlfetch
 
 from jinja2 import Environment, FileSystemLoader
 from cookies import Cookies
@@ -217,7 +213,7 @@ class BaseHandler(webapp.RequestHandler):
         if not password:
             return True
 
-        cookies = Cookies(self, max_age = 86400, path = '/')
+        cookies = Cookies(self, max_age = 31536000, path = '/')
         
         ck = 'pp_%s' % hashlib.sha1( pad_name ).hexdigest()
         
@@ -229,7 +225,7 @@ class BaseHandler(webapp.RequestHandler):
     def add_auth(self, pad_name, password):
         """docstring for add_auth"""
         
-        cookies = Cookies(self, max_age = 86400, path = '/')
+        cookies = Cookies(self, max_age = 31536000, path = '/')
         
         ck = 'pp_%s' % hashlib.sha1( pad_name ).hexdigest()
         cookies[ck] = hashlib.sha1( pad_name + password ).hexdigest()
@@ -237,11 +233,12 @@ class BaseHandler(webapp.RequestHandler):
     def remove_auth(self, pad_name):
         """docstring for remove_auth"""
         
-        cookies = Cookies(self, max_age = 86400, path = '/')
+        cookies = Cookies(self, max_age = 31536000, path = '/')
         
         ck = 'pp_%s' % hashlib.sha1( pad_name ).hexdigest()
         del cookies[ck]
-
+        
+        
 class MainHandler(BaseHandler):
     """docstring for MainHandler"""
 
@@ -405,7 +402,6 @@ class LoginHandler(BaseHandler):
         if not pad or not pad.password or self.is_auth(pad.pad_name, pad.password):
             self.redirect("/%s" % pad_name)
         else:
-            cookies = Cookies(self, max_age = 86400, path = '/')
             password = self.request.get('pad_password')
             
             if hashlib.md5(password).hexdigest() == pad.password:
