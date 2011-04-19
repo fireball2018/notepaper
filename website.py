@@ -207,17 +207,22 @@ class BaseHandler(webapp.RequestHandler):
         
         return pad
         
+    
+    @property
+    def cookies(self):
+        """docstring for fname"""
+        
+        return Cookies(self, max_age = 31536000, path = '/')
+        
     def is_auth(self, pad_name, password):
         """docstring for is_auth"""
 
         if not password:
             return True
 
-        cookies = Cookies(self, max_age = 31536000, path = '/')
-        
         ck = 'pp_%s' % hashlib.sha1( pad_name ).hexdigest()
         
-        if ck in cookies and cookies[ck] == hashlib.sha1( pad_name + password ).hexdigest():
+        if ck in self.cookies and self.cookies[ck] == hashlib.sha1( pad_name + password ).hexdigest():
             return True
         else:
             return False
@@ -225,18 +230,14 @@ class BaseHandler(webapp.RequestHandler):
     def add_auth(self, pad_name, password):
         """docstring for add_auth"""
         
-        cookies = Cookies(self, max_age = 31536000, path = '/')
-        
         ck = 'pp_%s' % hashlib.sha1( pad_name ).hexdigest()
-        cookies[ck] = hashlib.sha1( pad_name + password ).hexdigest()
+        self.cookies[ck] = hashlib.sha1( pad_name + password ).hexdigest()
         
     def remove_auth(self, pad_name):
         """docstring for remove_auth"""
         
-        cookies = Cookies(self, max_age = 31536000, path = '/')
-        
         ck = 'pp_%s' % hashlib.sha1( pad_name ).hexdigest()
-        del cookies[ck]
+        del self.cookies[ck]
         
         
 class MainHandler(BaseHandler):
