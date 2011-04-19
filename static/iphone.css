@@ -1,0 +1,48 @@
+body {
+    font-size: 12px;
+    padding: 4px 0;
+    margin: 0;
+}
+
+#controls, #promo, #loading, #unsaved {
+    display: none;
+}
+
+.stack {
+    position: static;
+    -webkit-box-shadow: none;
+}
+
+    .stack .layer_1 {
+        position: static;
+        background: transparent;
+        -webkit-box-shadow: none;
+    }
+    
+        .stack .layer_1 .layer_2 {
+            position: static;
+            background: transparent;
+            -webkit-box-shadow: none;
+        }
+        
+            .stack .layer_1 .layer_2 .layer_3 {
+                position: static;
+                margin: 3px 6px;
+                padding: 10px 12px;
+            }
+            
+                .stack .layer_1 .layer_2 .layer_3 .contents {
+                    font: normal 13px Arial, Helvetica, sans-serif;
+                    line-height: 18px;
+                    margin: 0;
+                    padding: 0;
+                }
+                
+                .stack .layer_1 .layer_2 .layer_3 .contents.monospace {
+                    font: normal 11px Monaco, 'Courier New', monospace;
+                    line-height: 17px;
+                }
+
+input, textarea {
+    -webkit-appearance: none;
+}

@@ -1,0 +1,15 @@
+# coding=utf-8
+
+password = u"密码"
+password_msg = u"这是一个加密文档，请输入密码"
+password_incorrect = u"密码错误"
+login = u"登录"
+logout = u"退出"
+site_desc = u"云端的一片纸"
+change_url = u"修改网址"
+save = u"保存"
+add_password = u"添加密码"
+remove_password = u"删除密码"
+share_this = u"分享"
+not_found = u"抱歉，页面没有找到"
+url_unavailable = u"网址无效或已存在"

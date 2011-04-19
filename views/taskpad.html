@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="stack "> 
+    <div class="layer_1"> 
+        <div class="layer_2"> 
+            <div class="layer_3"> 
+                <textarea name="contents" id="contents" class="contents " spellcheck="true">{% if pad.contents %}{{ pad.contents }}{% endif %}</textarea> 
+            </div> 
+        </div> 
+    </div> 
+</div> 
+
+<div id="printable_contents" class="contents "></div>
+
+<div id="unsaved" style="display:none;"></div> 
+<div id="loading" style="display:none;"></div> 
+
+<div id="controls">
+    
+    {% if pad.password %}
+    <a id="padlock" href="/logout/{{ pad.pad_name }}" title="{{ l10n.logout }}"><img src="/static/padlock.png" width="8" height="13" /></a>
+    {% endif %}
+     
+    <a href="/{{ pad.pad_name }}">http://{{ domain }}/{{ pad.pad_name }}</a>
+
+    <span class="bubble_wrapper" onclick="just_clicked_bubble = 'change_url';"> 
+        <a href="#" onclick="return false;">{{ l10n.change_url }}</a> 
+
+        <div class="bubble" id="bubble_for_change_url" style="display:none;"> 
+            <div class="highlight"></div> 
+
+            <div class="message" id="message_for_change_url_unavailable" style="display:none;"> 
+               {{ l10n.url_unavailable }}
+            </div>
+
+            <form action="/rename/{{ pad.pad_name }}" method="post" id="form_for_set_name" onsubmit="validate_name_exists(); return false;"> 
+                <input type="text" class="text_input" name="new_name" id="change_url_input" value="{{ pad.pad_name }}" /> 
+                <input type="submit" class="button" value="{{ l10n.save }}" />
+            </form> 
+
+            <div class="nipple"></div> 
+        </div> 
+    </span> 
+    
+    {% if pad.password %}
+    <a href="/password/remove/{{ pad.pad_name }}">{{ l10n.remove_password }}</a> 
+    {% else %}
+    <span class="bubble_wrapper" onclick="just_clicked_bubble = 'set_password';"> 
+        <a href="#" onclick="just_clicked_bubble = 'set_password'; return false;">{{ l10n.add_password }}</a> 
+
+        <div class="bubble" id="bubble_for_set_password" style="display:none;"> 
+            <div class="highlight"></div> 
+
+            <form action="/password/set/{{ pad.pad_name }}" method="post"> 
+                <input type="password" class="text_input" name="password" id="set_password_input" value="" /> 
+                <input type="submit" class="button" value="{{ l10n.save }}" /> 
+            </form>
+
+            <div class="nipple"></div>
+        </div>
+    </span>
+    {% endif %}
+
+    <span class="bubble_wrapper" onclick="just_clicked_bubble = 'share_this';"> 
+        <a href="#" onclick="return false;">{{ l10n.share_this }}</a>
+
+        <div class="bubble" id="bubble_for_share_this" style="display:none;">
+            <div class="highlight"></div> 
+
+            <input type="text" class="text_input" id="share_this_input" onclick="$('share_this_input').activate();" readonly="true"
+            value="http://{{ domain }}/share/{{ pad.share_name }}" /> 
+
+            <div class="nipple"></div> 
+        </div> 
+    </span>
+</div>
+{% endblock %}

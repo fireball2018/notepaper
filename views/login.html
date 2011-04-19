@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="input_form" style="margin-bottom:40px;">
+    <div class="copy" style="margin-bottom:50px;">
+        {% if error %}{{ l10n.password_incorrect }}{% else %}{{ l10n.password_msg }}{% endif %}
+    </div>
+    
+    <form action="/login/{{ pad_name }}" method="post">
+        <input id="pad_name" name="pad_name" type="hidden" value="{{ pad_name }}"/>
+        <div class="input_wrapper">
+            <input class="text_input" type="password" value="" id="pad_password" name="pad_password"/>
+            <label for="pad_password">{{ l10n.password }}</label>
+        </div>
+        
+        <div style="text-align:center;">
+            <input type="submit" class="big_button" value="{{ l10n.login }}" />
+        </div>
+    </form>
+</div>
+<div id="unsaved" style="display:none;"></div>
+<div id="loading" style="display:none;"></div>
+
+<div id="controls">
+    <a href="/">taskpad.me</a>
+</div>
+{% endblock %}
