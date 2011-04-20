@@ -177,6 +177,12 @@ class BaseHandler(webapp.RequestHandler):
         else:
             return None
     
+    def clean_name(self, name):
+        """docstring for clean_name"""
+        
+        name = name.lower()
+        return re.sub(r"[^-a-z0-9]+", "-", name)
+    
     def new_pad(self, pad_name=None, share_name=None, caret_position=0,
         scroll_position=0, password='', contents='', created=None, updated=None):
         """docstring for new_pad"""
@@ -184,8 +190,7 @@ class BaseHandler(webapp.RequestHandler):
         if pad_name is None:
             pad_name = self.new_pad_name()
         else:
-            pad_name = pad_name.lower()
-            pad_name = re.sub(r"[^a-z0-9]+", "-", pad_name)
+            pad_name = self.clean_name(pad_name)
         
         if share_name is None:
             share_name = self.new_share_name()
@@ -304,7 +309,7 @@ class CheckNameHandler(BaseHandler):
         
         pad = self.get_by_pad_name(pad_name)
         
-        if pad or len(pad_name) < 3 or pad_name in self.blocked_names:
+        if pad or not pad_name or len(pad_name) < 3 or pad_name in self.blocked_names:
             self.write("true")
         else:
             self.write("false")
@@ -316,11 +321,12 @@ class RenameHandler(BaseHandler):
         """docstring for post"""
         
         new_name = self.request.get('new_name')
+        new_name = self.clean_name(new_name)
         
         old_pad = self.get_by_pad_name(pad_name)
         ex_pad = self.get_by_pad_name(new_name)
         
-        if ex_pad:
+        if not new_name or len(new_name) < 3 or ex_pad:
             self.redirect("/%s" % pad_name)
             return
         elif old_pad and new_name != old_pad.pad_name \
