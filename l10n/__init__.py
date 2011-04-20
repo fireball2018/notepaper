@@ -11,7 +11,7 @@ import logging
 # Step 3: Fallback to site.l10n
 
 def GetMessages(handler, lang='zh' ):
-    if lang == 'en':
+    if lang.startswith('en'):
         from l10n.messages import en as messages
         return messages
     else:

@@ -1,22 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-    <div class="stack {% if not pad.contents %}empty{% endif %}">
+<div class="stack {% if not pad.contents %}empty{% endif %}">
     <div class="layer_1">
         <div class="layer_2">
             <div class="layer_3">
-                <div id="contents" class="contents ">{% if pad.contents %}{{ pad.contents }}{% else %}<br /><br /><br /><br /><br />nothing to show{% endif %}</div>
+                <article id="contents" class="contents ">{% if pad.contents %}{{ pad.contents }}{% else %}<br /><br /><br /><br /><br />nothing to show{% endif %}</article>
             </div>
         </div>
     </div>
-</div>
-
-    
-<div id="unsaved" style="display:none;"></div>
-<div id="loading" style="display:none;"></div>
-
-<div id="controls">
-    <a href="/">taskpad.me</a>
 </div>
 {% endblock %}

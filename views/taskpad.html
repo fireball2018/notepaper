@@ -9,15 +9,12 @@
             </div> 
         </div> 
     </div> 
-</div> 
+</div>
 
 <div id="printable_contents" class="contents "></div>
+{% endblock %}
 
-<div id="unsaved" style="display:none;"></div> 
-<div id="loading" style="display:none;"></div> 
-
-<div id="controls">
-    
+{% block footer %}
     {% if pad.password %}
     <a id="padlock" href="/logout/{{ pad.pad_name }}" title="{{ l10n.logout }}"><img src="/static/padlock.png" width="8" height="13" /></a>
     {% endif %}
@@ -62,17 +59,19 @@
     </span>
     {% endif %}
 
-    <span class="bubble_wrapper" onclick="just_clicked_bubble = 'share_this';"> 
+    <span class="bubble_wrapper" onclick="just_clicked_bubble = 'share_this';">
         <a href="#" onclick="return false;">{{ l10n.share_this }}</a>
 
         <div class="bubble" id="bubble_for_share_this" style="display:none;">
-            <div class="highlight"></div> 
+            <div class="highlight"></div>
 
             <input type="text" class="text_input" id="share_this_input" onclick="$('share_this_input').activate();" readonly="true"
             value="http://{{ domain }}/share/{{ pad.share_name }}" /> 
 
             <div class="nipple"></div> 
-        </div> 
+        </div>
     </span>
-</div>
+    
+    <a href="#" onclick="open_ime(); return false">打开云输入法</a>
+    
 {% endblock %}

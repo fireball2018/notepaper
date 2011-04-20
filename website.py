@@ -39,7 +39,8 @@ class Taskpad(db.Model):
 class BaseHandler(webapp.RequestHandler):
     
     blocked_names = ['admin', 'user', 'u', 'login', 'logout', 'password', 'share', 'app', 'rename', 'check_if_name_exists',
-            'name', 'taskpad', 'todo', 'tasks', 'ads', 'feed', 'rss', 'auth', 'html', 'xml', 'ajax', 'static', 'data', 'js']
+            'name', 'taskpad', 'todo', 'tasks', 'ads', 'feed', 'rss', 'auth', 'html', 'xml', 'ajax', 'static', 'data', 'js',
+            'search', 'list', 'find']
     
     def write(self, content):
         """docstring for write"""
@@ -103,29 +104,27 @@ class BaseHandler(webapp.RequestHandler):
         """docstring for bwr_lang"""
 
         langs = GetSupportedLanguages()
-        cookies = Cookies(self, max_age = 86400, path = '/')
-
         lang = self.request.get('lang')
 
-        if lang.startswith("zh"):
-            lang = 'zh'
-
         if lang and lang in langs:
-            cookies['lang'] = lang
+            self.cookies['lang'] = lang
             return lang
 
-        if 'lang' in cookies and cookies['lang'] in langs:
-            return cookies['lang']
+        if 'lang' in self.cookies and self.cookies['lang'] in langs:
+            return self.cookies['lang']
 
         try:
             accept_language = self.request.headers['Accept-Language']
         except:
             accept_language = "zh"
 
-        if accept_language.startswith("en"):
-            return "en"
-        else:
-            return "zh"
+        return accept_language
+    
+    @property
+    def cookies(self):
+        """docstring for cookies"""
+
+        return Cookies(self, max_age = 315360000, path = '/')
     
     def random_str(self, str_len=5, t=1):
         """docstring for random_str"""
@@ -179,7 +178,7 @@ class BaseHandler(webapp.RequestHandler):
     
     def new_pad(self, pad_name=None, share_name=None, caret_position=0,
         scroll_position=0, password='', contents='', created=None, updated=None):
-        """docstring for get_pad"""
+        """docstring for new_pad"""
         
         if pad_name is None:
             pad_name = self.new_pad_name()
@@ -206,13 +205,6 @@ class BaseHandler(webapp.RequestHandler):
         pad.put()
         
         return pad
-        
-    
-    @property
-    def cookies(self):
-        """docstring for fname"""
-        
-        return Cookies(self, max_age = 31536000, path = '/')
         
     def is_auth(self, pad_name, password):
         """docstring for is_auth"""

@@ -15,7 +15,8 @@
     <!--<script src="/static/jquery-1.5.2.min.js" type="text/javascript"></script>-->
     <script type="text/javascript" charset="utf-8">
         var assets_version = 3;
-        var is_iphone_os = {% if is_ios %}true{% else %}false{% endif %};
+        var is_iphone_os = {% if user_browser == 'iphone' %}true{% else %}false{% endif %};
+        var is_kindle = {% if user_browser == 'kindle' %}true{% else %}false{% endif %};
 
         var pad_name = {% if pad_name  %}'{{ pad_name }}'{% else %}false{% endif %};
 
@@ -24,43 +25,6 @@
 
         var caret_position  = {% if pad and pad.caret_position %}{{ pad.caret_position }}{% else %}0{% endif %};
         var scroll_position = {% if pad and pad.scroll_position %}{{ pad.scroll_position }}{% else %}0{% endif %};
-        
-        {% if user_browser == 'kindle' %}
-        (function() {
-            var d=document;
-            var j=d.createElement('script');
-            j.src='http://ime.qq.com/fcgi-bin/getjs';
-            j.setAttribute('ime-cfg','lt=2&im=131');
-            d.getElementsByTagName('head')[0].appendChild(j);
-        })()
-        {% endif %}
-        
-        {% if user_browser == 'Mars' %}
-        (t13nb=window.t13nb || function(l){
-            var t=t13nb, 
-            d=document,
-            o=d.head,
-            c="createElement", 
-            a="appendChild",
-            w="clientWidth",
-            i=d[c]("span"),
-            s=i.style,
-            x=o[a](d[c]("script"));
-            if(o){
-                if(!t.l){
-                    t.l=x.id="t13ns";
-                    o[a](i).id="t13n";
-                    i.innerHTML="Loading Transliteration";
-                    s.cssText="z-index:99;font-size:18px;background:#FFF1A8;top:0";
-                    s.position=d.all?"absolute":"fixed";
-                    s.left=((o[w]-i[w])/2)+"px";
-                    x.src="http://t13n.googlecode.com/svn/trunk/blet/rt13n.js?l="+l
-                }
-            }
-            else
-                setTimeout(t,500)
-        })('zh');
-        {% endif %}
     </script>
     <script type="text/javascript" src="/static/app.js"></script>
     {% endblock %}
@@ -75,5 +39,14 @@
 </head>
 <body id="body">
 {% block content %}{% endblock %}
+
+<progress id="unsaved" style="display:none;"></progress>
+<progress id="loading" style="display:none;"></progress>
+
+<footer id="controls">
+{% block footer %}
+    <a href="/">taskpad.me</a>
+{% endblock %}
+</footer>
 </body> 
 </html>

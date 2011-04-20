@@ -234,6 +234,14 @@ function _determine_update_contents(contents_value) {
     }
 }
 
+function open_ime() {
+    var d=document;
+    var j=d.createElement('script');
+    j.src='http://ime.qq.com/fcgi-bin/getjs';
+    j.setAttribute('ime-cfg','lt=2&im=131');
+    d.getElementsByTagName('head')[0].appendChild(j);
+}
+
 var new_chars_before_save = 50;
 var seconds_before_save = 2;
 
@@ -274,6 +282,8 @@ Event.observe(window, 'load', function() {
     }
     
     if ($('contents') && scroll_position) set_scroll_position('contents', scroll_position);
+    
+    
         
     if (pad_name && ! disable_autosave && $('contents')) {
         chars_on_last_save = $('contents').value.length;
@@ -319,6 +329,8 @@ Event.observe(window, 'load', function() {
             });
         }
         
+        if (is_kindle) open_ime();
+        
         Event.observe('contents', 'keydown', function(e) {
             if (e.keyCode == Event.KEY_TAB) {
                 // Catch and support tabs
@@ -353,3 +365,30 @@ Event.observe(window, 'load', function() {
         });
     }
 });
+
+function open_google_ime(l) {
+    (t13nb=window.t13nb || function(l){
+        var t=t13nb, 
+        d=document,
+        o=d.head,
+        c="createElement", 
+        a="appendChild",
+        w="clientWidth",
+        i=d[c]("span"),
+        s=i.style,
+        x=o[a](d[c]("script"));
+        if(o){
+            if(!t.l){
+                t.l=x.id="t13ns";
+                o[a](i).id="t13n";
+                i.innerHTML="Loading Transliteration";
+                s.cssText="z-index:99;font-size:18px;background:#FFF1A8;top:0";
+                s.position=d.all?"absolute":"fixed";
+                s.left=((o[w]-i[w])/2)+"px";
+                x.src="http://t13n.googlecode.com/svn/trunk/blet/rt13n.js?l="+l
+            }
+        }
+        else
+            setTimeout(t,500)
+    })(l);
+}
