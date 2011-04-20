@@ -311,8 +311,12 @@ class RenameHandler(BaseHandler):
         new_name = self.request.get('new_name')
         
         old_pad = self.get_by_pad_name(pad_name)
-
-        if old_pad and new_name != old_pad.pad_name \
+        ex_pad = self.get_by_pad_name(new_name)
+        
+        if ex_pad:
+            self.redirect("/%s" % pad_name)
+            return
+        elif old_pad and new_name != old_pad.pad_name \
             and (not old_pad.password or self.is_auth(old_pad.pad_name, old_pad.password)):
             self.new_pad(
                     pad_name = new_name, 

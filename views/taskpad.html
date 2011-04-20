@@ -31,14 +31,14 @@
                {{ l10n.url_unavailable }}
             </div>
 
-            <form action="/rename/{{ pad.pad_name }}" method="post" id="form_for_set_name" onsubmit="validate_name_exists(); return false;"> 
+            <form action="/rename/{{ pad.pad_name }}" method="post" id="form_for_set_name"> 
                 <input type="text" class="text_input" name="new_name" id="change_url_input" value="{{ pad.pad_name }}" /> 
-                <input type="submit" class="button" value="{{ l10n.save }}" />
+                <input type="button" class="button" onclick="validate_name_exists();" value="{{ l10n.save }}" />
             </form> 
 
             <div class="nipple"></div> 
         </div> 
-    </span> 
+    </span>
     
     {% if pad.password %}
     <a href="/password/remove/{{ pad.pad_name }}">{{ l10n.remove_password }}</a> 
@@ -59,19 +59,19 @@
     </span>
     {% endif %}
 
-    <span class="bubble_wrapper" onclick="just_clicked_bubble = 'share_this';">
-        <a href="#" onclick="return false;">{{ l10n.share_this }}</a>
+    <span class="bubble_wrapper" id="bubble_share_this" onclick="just_clicked_bubble = 'share_this';">
+        <a href="#">{{ l10n.share_this }}</a>
 
         <div class="bubble" id="bubble_for_share_this" style="display:none;">
             <div class="highlight"></div>
 
-            <input type="text" class="text_input" id="share_this_input" onclick="$('share_this_input').activate();" readonly="true"
+            <input type="text" class="text_input" id="share_this_input" onclick="$('#share_this_input').select();" readonly="true"
             value="http://{{ domain }}/share/{{ pad.share_name }}" /> 
 
             <div class="nipple"></div> 
         </div>
     </span>
     
-    <a href="#" onclick="open_ime(); return false">打开云输入法</a>
+    <a href="#" id="open_ime" onclick="open_ime(); return false;">{{ l10n.open_ime }}</a>
     
 {% endblock %}

@@ -11,8 +11,8 @@
     {% if user_browser == 'firefox' %}<link rel="stylesheet" href="/static/firefox.css" type="text/css" media="screen" charset="utf-8" />{% endif %}
 
     {% block head %}
-    <script src="/static/prototype.js" type="text/javascript"></script>
-    <!--<script src="/static/jquery-1.5.2.min.js" type="text/javascript"></script>-->
+    <script src="http://ajax.microsoft.com/ajax/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+    <script>!window.jQuery && document.write('<script src="/static/jquery-1.5.2.min.js"><\/script>')</script>
     <script type="text/javascript" charset="utf-8">
         var assets_version = 3;
         var is_iphone_os = {% if user_browser == 'iphone' %}true{% else %}false{% endif %};
@@ -25,6 +25,12 @@
 
         var caret_position  = {% if pad and pad.caret_position %}{{ pad.caret_position }}{% else %}0{% endif %};
         var scroll_position = {% if pad and pad.scroll_position %}{{ pad.scroll_position }}{% else %}0{% endif %};
+        
+        var l10n = {'open_ime': "{{ l10n.open_ime }}",
+            'close_ime': "{{ l10n.close_ime }}",
+            'save_contents_failed': "{{ l10n.save_contents_failed }}",
+            'logged_out': "{{ l10n.logged_out }}",
+            'leaving_notice': "{{ l10n.leaving_notice }}" };
     </script>
     <script type="text/javascript" src="/static/app.js"></script>
     {% endblock %}
