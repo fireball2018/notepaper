@@ -443,7 +443,7 @@ def main():
                         ('/check_if_name_exists/([a-zA-Z0-9]+)', CheckNameHandler),
                         ('/rename/([a-zA-Z0-9]+)', RenameHandler),
                         ('/password/(set|remove)/([a-zA-Z0-9]+)', PasswordHandler),
-                        ('/(admin|blog|error|logout)', ErrorHandler),
+                        ('/(?:admin|error|logout)', ErrorHandler),
                         ('/([a-zA-Z0-9]+)', PadHandler),
                         ('/.*', ErrorHandler),
                     ], debug=True)
