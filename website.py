@@ -144,7 +144,7 @@ class BaseHandler(webapp.RequestHandler):
     def new_pad_name(self):
         """docstring for new_pad_name"""
         
-        pad_name = self.random_str(random.randint(5,7))
+        pad_name = self.random_str(random.randint(4,6))
         pad = self.get_by_pad_name(pad_name)
         
         if pad or pad_name in self.blocked_names:
