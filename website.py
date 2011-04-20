@@ -183,6 +183,9 @@ class BaseHandler(webapp.RequestHandler):
         
         if pad_name is None:
             pad_name = self.new_pad_name()
+        else:
+            pad_name = pad_name.lower()
+            pad_name = re.sub(r"[^a-z0-9]+", "-", pad_name)
         
         if share_name is None:
             share_name = self.new_share_name()
