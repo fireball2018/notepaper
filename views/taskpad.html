@@ -5,13 +5,13 @@
     <div class="layer_1"> 
         <div class="layer_2"> 
             <div class="layer_3"> 
-                <textarea name="contents" id="contents" class="contents " spellcheck="true">{% if pad.contents %}{{ pad.contents }}{% endif %}</textarea> 
+                <textarea name="contents" id="contents" class="contents" spellcheck="true">{% if pad.contents %}{{ pad.contents }}{% endif %}</textarea> 
             </div> 
         </div> 
     </div> 
 </div>
 
-<div id="printable_contents" class="contents "></div>
+<div id="printable_contents" class="contents"/></div>
 {% endblock %}
 
 {% block footer %}
@@ -22,7 +22,7 @@
     <a href="/{{ pad.pad_name }}">http://{{ domain }}/{{ pad.pad_name }}</a>
 
     <span class="bubble_wrapper" onclick="just_clicked_bubble = 'change_url';"> 
-        <a href="#" onclick="return false;">{{ l10n.change_url }}</a> 
+        <a href="#" onclick="just_clicked_bubble = 'change_url'; return false;">{{ l10n.change_url }}</a> 
 
         <div class="bubble" id="bubble_for_change_url" style="display:none;"> 
             <div class="highlight"></div> 
@@ -33,11 +33,11 @@
 
             <form action="/rename/{{ pad.pad_name }}" method="post" id="form_for_set_name"> 
                 <input type="text" class="text_input" name="new_name" id="change_url_input" value="{{ pad.pad_name }}" /> 
-                <input type="button" class="button" onclick="validate_name_exists();" value="{{ l10n.save }}" />
+                <input type="submit" class="button" onclick="return validate_name_exists();" value="{{ l10n.save }}" />
             </form> 
 
             <div class="nipple"></div> 
-        </div> 
+        </div>
     </span>
     
     {% if pad.password %}
@@ -49,9 +49,9 @@
         <div class="bubble" id="bubble_for_set_password" style="display:none;"> 
             <div class="highlight"></div> 
 
-            <form action="/password/set/{{ pad.pad_name }}" method="post"> 
+            <form action="/password/set/{{ pad.pad_name }}" method="post">
                 <input type="password" class="text_input" name="password" id="set_password_input" value="" /> 
-                <input type="submit" class="button" value="{{ l10n.save }}" /> 
+                <input type="submit" class="button" value="{{ l10n.save }}" />
             </form>
 
             <div class="nipple"></div>

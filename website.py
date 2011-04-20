@@ -25,6 +25,7 @@ from google.appengine.api import memcache
 from jinja2 import Environment, FileSystemLoader
 from cookies import Cookies
 from l10n import GetMessages,GetSupportedLanguages
+import markdown
 
 class Taskpad(db.Model):
     pad_name = db.StringProperty()
@@ -374,6 +375,10 @@ class ShareHandler(BaseHandler):
         pad = self.get_by_share_name(share_name)
         
         if pad:
+            
+            if pad.contents.startswith("!#markdown\n"):
+                pad.contents = markdown.markdown(pad.contents[11:])
+            
             self.render('share.html', pad_name=False, read_only_mode=True, pad=pad)
         else:
             self.render('error.html')

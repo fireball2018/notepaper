@@ -601,7 +601,6 @@ $(document).ready(function(){
 
                 just_clicked_bubble = false;
                 
-                return false;
             } else {
                 $('.bubble').hide();
             }
