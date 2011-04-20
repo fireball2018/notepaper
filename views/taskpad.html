@@ -65,7 +65,7 @@
     {% endif %}
 
     <span class="bubble_wrapper" id="bubble_share_this" onclick="just_clicked_bubble = 'share_this';">
-        <a href="#">{{ l10n.share_this }}</a>
+        <a href="#" onclick="just_clicked_bubble = 'share_this'; return false;">{{ l10n.share_this }}</a>
 
         <div class="bubble" id="bubble_for_share_this" style="display:none;">
             <div class="highlight"></div>
