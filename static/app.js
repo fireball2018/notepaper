@@ -343,10 +343,10 @@ function auto_resize(el) {
     
     var TEXTAREA_LINE_HEIGHT = 13;
     
-    var textarea = documnet.getElementById(el);
+    var textarea = document.getElementById(el);
     var newHeight = textarea.scrollHeight;
     var currentHeight = textarea.clientHeight;
-    
+
     if (newHeight > currentHeight) {
         textarea.style.height = newHeight + (2 * TEXTAREA_LINE_HEIGHT) + 'px';
     }
