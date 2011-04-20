@@ -41,7 +41,7 @@ class BaseHandler(webapp.RequestHandler):
     
     blocked_names = ['admin', 'user', 'u', 'login', 'logout', 'password', 'share', 'app', 'rename', 'check_if_name_exists',
             'name', 'taskpad', 'todo', 'tasks', 'ads', 'feed', 'rss', 'auth', 'html', 'xml', 'ajax', 'static', 'data', 'js',
-            'search', 'list', 'find']
+            'search', 'list', 'find', 'about']
     
     def write(self, content):
         """docstring for write"""
