@@ -420,7 +420,7 @@ function validate_name_exists() {
     if (! $('#change_url_input')) return false;
     el = $('#change_url_input');
     
-    var new_pad_name = el.val();
+    var new_pad_name = el.html();
     new_pad_name = new_pad_name.toLowerCase().replace("'", '').replace(/[^-a-z0-9]/g, '-').replace(/--+/g, '-').replace(/^-+|-+$/g, '').substr(0,50);
     
     if (new_pad_name == '' || new_pad_name == pad_name) {
@@ -611,32 +611,32 @@ $(document).ready(function(){
     if ($('#contents') && scroll_position) set_scroll_position('contents', scroll_position);
         
     if (pad_name && ! disable_autosave && $('#contents')) {
-        chars_on_last_save = $('#contents').val().length;
-        $('#printable_contents').html(htmlspecialchars($('#contents').val()));
+        chars_on_last_save = $('#contents').html().length;
+        $('#printable_contents').html(htmlspecialchars($('#contents').html()));
         
         $("#contents").observe_field(0.25, function() {
             $('#unsaved').show();
             unsaved_changes = true;
-            _determine_update_contents($("#contents").val());
+            _determine_update_contents($("#contents").html());
         });
         
         // Save contents when the cursor moves
         $(document).mousemove(function(e){
             if (unsaved_changes) {
-                _update_contents($('#contents').val());
+                _update_contents($('#contents').html());
             }
         });
         
         $(document).blur(function(e){
             if (unsaved_changes) {
-                _update_contents($('#contents').val());
+                _update_contents($('#contents').html());
             }
         });
         
         // Save contents before unload. Prototype mucks with onBeforeUnload
         window.onbeforeunload = function() {
             if (unsaved_changes) {
-                _update_contents($('#contents').val());
+                _update_contents($('#contents').html());
                 return l10n.leaving_notice;
             }
         }
@@ -655,7 +655,7 @@ $(document).ready(function(){
             if ((e.ctrlKey || e.metaKey) && e.keyCode == 83) {
                 // Save on ⌘S / ⌃S
                 if (unsaved_changes) {
-                    _update_contents($('#contents').val());
+                    _update_contents($('#contents').html());
                 }
                 
                 // stop event
@@ -671,7 +671,7 @@ $(document).ready(function(){
             //  return false
             // }
             
-            $('#printable_contents').html(htmlspecialchars($('#contents').val()));
+            $('#printable_contents').html(htmlspecialchars($('#contents').html()));
         });
     }
 });
