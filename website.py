@@ -144,7 +144,7 @@ class BaseHandler(webapp.RequestHandler):
     def new_pad_name(self):
         """docstring for new_pad_name"""
         
-        pad_name = self.random_str(random.randint(4,6))
+        pad_name = self.random_str(random.randint(3,5))
         pad = self.get_by_pad_name(pad_name)
         
         if pad or pad_name in self.blocked_names:
@@ -155,7 +155,7 @@ class BaseHandler(webapp.RequestHandler):
     def new_share_name(self):
         """docstring for new_share_name"""
         
-        share_name = self.random_str(random.randint(6,8))
+        share_name = self.random_str(random.randint(5,7))
         pad = self.get_by_share_name(share_name)
         
         if pad or share_name in self.blocked_names:
@@ -248,13 +248,16 @@ class PadHandler(BaseHandler):
     def get(self, pad_name):
         """docstring for get"""
         
-        pad = self.get_by_pad_name(pad_name)
+        pad = self.get_by_pad_name(pad_name[0:50])
         
         if not pad:
-            pad = self.new_pad(pad_name)
-            
+            pad = self.new_pad(pad_name[0:50])
+
         if not self.is_auth(pad.pad_name, pad.password):
             self.redirect("/login/%s" % pad.pad_name)
+        
+        if pad.pad_name != pad_name:
+            self.redirect("/%s" % pad.pad_name)
         
         self.render('taskpad.html', pad_name=pad_name, pad=pad)
     
