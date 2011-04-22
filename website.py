@@ -32,6 +32,7 @@ class Taskpad(db.Model):
     share_name = db.StringProperty()
     password = db.StringProperty()
     contents = db.TextProperty()
+    length   =  db.IntegerProperty()
     caret_position = db.IntegerProperty()
     scroll_position = db.IntegerProperty()
     created = db.DateTimeProperty()
@@ -201,6 +202,11 @@ class BaseHandler(webapp.RequestHandler):
         # if updated is None:
         #     updated = datetime.now()
         
+        if contents:
+            length = len(contents)
+        else:
+            length = 0 
+        
         pad = Taskpad(key_name=pad_name)
         pad.pad_name = pad_name
         pad.share_name = share_name
@@ -208,6 +214,7 @@ class BaseHandler(webapp.RequestHandler):
         pad.scroll_position = scroll_position
         pad.password = password
         pad.contents = contents
+        pad.length = 0
         pad.created = created
         pad.updated = updated
         
@@ -293,6 +300,7 @@ class PadHandler(BaseHandler):
                 scroll_position = 0
             
             pad.contents = contents
+            pad.length = len(contents)
             pad.caret_position = caret_position
             pad.scroll_position = scroll_position
             pad.updated = datetime.now()
@@ -449,8 +457,7 @@ class CleanupHandler(BaseHandler):
     
     def get(self):
         """docstring for get"""
-        old_day = datetime.now()-timedelta(days=7)
-        pads = Taskpad.gql("WHERE updated=:1 and created<:2", None, old_day)
+        pads = Taskpad.gql("WHERE length=:1 and created<:2", 0, datetime.now()-timedelta(days=7))
         db.delete(pads)
 
 def main():
@@ -467,7 +474,7 @@ def main():
                         ('/(?:admin|error|logout)', ErrorHandler),
                         ('/([a-zA-Z0-9]+)', PadHandler),
                         ('/.*', ErrorHandler),
-                    ], debug=True)
+                    ], debug=False)
                     
     util.run_wsgi_app(application)
 

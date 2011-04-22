@@ -1,0 +1,6 @@
+indexes:
+
+- kind: Taskpad
+  properties:
+  - name: updated
+  - name: created

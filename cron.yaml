@@ -1,0 +1,5 @@
+cron:
+- description: cleanup
+  url: /cleanup
+  schedule: every day 03:00
+  timezone: Asia/Shanghai
