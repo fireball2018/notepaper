@@ -12,7 +12,7 @@ import logging
 import random
 import hashlib
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib import unquote, quote_plus
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'lib'))
@@ -41,7 +41,7 @@ class BaseHandler(webapp.RequestHandler):
     
     blocked_names = ['admin', 'user', 'u', 'login', 'logout', 'password', 'share', 'app', 'rename', 'check_if_name_exists',
             'name', 'taskpad', 'todo', 'tasks', 'ads', 'feed', 'rss', 'auth', 'html', 'xml', 'ajax', 'static', 'data', 'js',
-            'search', 'list', 'find', 'about']
+            'search', 'list', 'find', 'about', 'cleanup']
     
     def write(self, content):
         """docstring for write"""
@@ -198,8 +198,8 @@ class BaseHandler(webapp.RequestHandler):
         if created is None:
             created = datetime.now()
         
-        if updated is None:
-            updated = datetime.now()
+        # if updated is None:
+        #     updated = datetime.now()
         
         pad = Taskpad(key_name=pad_name)
         pad.pad_name = pad_name
@@ -239,7 +239,6 @@ class BaseHandler(webapp.RequestHandler):
         
         ck = 'pp_%s' % hashlib.sha1( pad_name ).hexdigest()
         del self.cookies[ck]
-        
         
 class MainHandler(BaseHandler):
     """docstring for MainHandler"""
@@ -444,11 +443,21 @@ class ErrorHandler(BaseHandler):
     def get(self):
         """docstring for get"""
         self.render('error.html')
+    
+class CleanupHandler(BaseHandler):
+    """docstring for CleanHandler"""
+    
+    def get(self):
+        """docstring for get"""
+        old_day = datetime.now()-timedelta(days=7)
+        pads = Taskpad.gql("WHERE updated=:1 and created<:2", None, old_day)
+        db.delete(pads)
 
 def main():
     logging.getLogger().setLevel(logging.INFO)
     application = webapp.WSGIApplication([
                         ('/', MainHandler),
+                        ('/cleanup', CleanupHandler),
                         ('/login/([a-zA-Z0-9]+)', LoginHandler),
                         ('/logout/([a-zA-Z0-9]+)', LogoutHandler),
                         ('/share/([a-zA-Z0-9]+)', ShareHandler),
