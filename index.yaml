@@ -2,5 +2,5 @@ indexes:
 
 - kind: Taskpad
   properties:
-  - name: updated
+  - name: length
   - name: created

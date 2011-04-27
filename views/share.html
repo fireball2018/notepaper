@@ -5,7 +5,7 @@
     <div class="layer_1">
         <div class="layer_2">
             <div class="layer_3">
-                <article id="contents" class="contents ">{% if pad.contents %}{{ pad.contents }}{% else %}<br /><br /><br /><br /><br />nothing to show{% endif %}</article>
+                <article id="contents" class="contents ">{% if pad.contents %}{{ pad.contents|urlize(120, True) }}{% else %}<br /><br /><br /><br /><br />nothing to show{% endif %}</article>
             </div>
         </div>
     </div>
