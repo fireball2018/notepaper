@@ -311,8 +311,11 @@ class PadHandler(BaseHandler):
 class CheckNameHandler(BaseHandler):
     """docstring for CheckNameHandler"""
     
+    def get(self, pad_name):
+        self.post(pad_name)
+    
     def post(self, pad_name):
-        """docstring for get"""
+        """docstring for post"""
         
         pad = self.get_by_pad_name(pad_name)
         
@@ -465,14 +468,14 @@ def main():
     application = webapp.WSGIApplication([
                         ('/', MainHandler),
                         ('/cleanup', CleanupHandler),
-                        ('/login/([a-zA-Z0-9]+)', LoginHandler),
-                        ('/logout/([a-zA-Z0-9]+)', LogoutHandler),
-                        ('/share/([a-zA-Z0-9]+)', ShareHandler),
-                        ('/check_if_name_exists/([a-zA-Z0-9]+)', CheckNameHandler),
-                        ('/rename/([a-zA-Z0-9]+)', RenameHandler),
-                        ('/password/(set|remove)/([a-zA-Z0-9]+)', PasswordHandler),
+                        ('/login/([a-zA-Z0-9\-_]+)', LoginHandler),
+                        ('/logout/([a-zA-Z0-9\-_]+)', LogoutHandler),
+                        ('/share/([a-zA-Z0-9\-_]+)', ShareHandler),
+                        ('/check_if_name_exists/([a-zA-Z0-9\-_]+)', CheckNameHandler),
+                        ('/rename/([a-zA-Z0-9\-_]+)', RenameHandler),
+                        ('/password/(set|remove)/([a-zA-Z0-9\-_]+)', PasswordHandler),
                         ('/(?:admin|error|logout)', ErrorHandler),
-                        ('/([a-zA-Z0-9]+)', PadHandler),
+                        ('/([a-zA-Z0-9\-_]+)', PadHandler),
                         ('/.*', ErrorHandler),
                     ], debug=False)
                     

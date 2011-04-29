@@ -10,7 +10,7 @@ handlers:
 - url: /favicon.ico
   static_files: static/favicon.ico
   upload: static/favicon.ico
-  mime_type: image/x-icon    
+  mime_type: image/x-icon
 
 - url: /robots.txt
   static_files: static/robots.txt
